@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rock Paper Scissors</title> 
+    <link href="./output.css" rel="stylesheet">
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+</head>
+<body class="bg-gray-950 p-5">
+    <p class="text-white text-5xl font-bold">Rock paper Scissors</p>
+    <div class="flex gap-5 mt-10">
+        <button class="border-2 cursor-pointer border-solid border-white w-25 h-25 rounded-full flex justify-center items-center" onclick="findresult('rock')"><img class="w-10 h-10" src="https://supersimple.dev/projects/rock-paper-scissors/images/rock-emoji.png"></button>
+        <button class="border-2 cursor-pointer border-solid border-white w-25 h-25  rounded-full flex justify-center items-center" onclick="findresult('scissor')"><img class="w-10 h-10" src="https://supersimple.dev/projects/rock-paper-scissors/images/paper-emoji.png"></button>
+        <button class="border-2 cursor-pointer border-solid border-white w-25 h-25 rounded-full flex justify-center items-center" onclick="findresult('paper')"><img class="w-10 h-10" src="https://supersimple.dev/projects/rock-paper-scissors/images/scissors-emoji.png"></button>
+    </div>
+    <p class="js-result text-white mt-5"></p>
+    <p class="js-choice text-white mt-5"></p>
+    <p class="js-complete-result text-white mt-5"></p>
+    <button class="bg-white border-none cursor-pointer py-1 px-3 mt-5" onclick="
+    score.win=0;
+    score.Tie=0;
+    score.loose=0;
+    document.querySelector('.js-result').innerHTML='';
+    document.querySelector('.js-choice').innerHTML='';
+    updatescore();
+    ">ResetGame</button>
+    <script>
+        let score;
+        const store = localStorage.getItem('score');
+        score = store ? JSON.parse(store) : { win: 0, loose: 0, Tie: 0 };
+        function findresult(yourc) {
+            const computerc = choicee();
+            let finalresult='';
+            if (computerc === yourc) {
+                finalresult='Game Tie';
+                score.Tie++;
+            } else if (
+                (computerc === 'rock' && yourc === 'scissor') ||
+                (computerc === 'scissor' && yourc === 'paper') ||
+                (computerc === 'paper' && yourc === 'rock')
+            ) {
+                finalresult='You Loose';
+                score.loose++;
+            } else {
+                finalresult='You win';
+                score.win++;
+            }
+            localStorage.setItem('score', JSON.stringify(score));
+            const res=document.querySelector('.js-result');
+            res.innerHTML=finalresult;
+            showimage(computerc,yourc);
+            updatescore();
+        }
+        function showimage(computerc,yourc){
+            const choi=document.querySelector('.js-choice');
+            if(computerc==='rock' && yourc==='rock') choi.innerHTML='<div class="flex items-center">You <img class="h-10 w-10" src="https://supersimple.dev/projects/rock-paper-scissors/images/rock-emoji.png"> <img class="h-10 w-10" src="https://supersimple.dev/projects/rock-paper-scissors/images/rock-emoji.png"> computer</div>';
+            if(computerc==='rock' && yourc==='paper') choi.innerHTML='<div class="flex items-center">You <img class="h-10 w-10" src="https://supersimple.dev/projects/rock-paper-scissors/images/paper-emoji.png"> <img class="h-10 w-10" src="https://supersimple.dev/projects/rock-paper-scissors/images/rock-emoji.png"> computer</div>';
+            if(computerc==='rock' && yourc==='scissor') choi.innerHTML='<div class="flex items-center">You <img class="h-10 w-10" src="https://supersimple.dev/projects/rock-paper-scissors/images/scissors-emoji.png"> <img class="h-10 w-10" src="https://supersimple.dev/projects/rock-paper-scissors/images/rock-emoji.png"> computer</div>';
+            if(computerc==='paper' && yourc==='paper') choi.innerHTML='<div class="flex items-center">You <img class="h-10 w-10" src="https://supersimple.dev/projects/rock-paper-scissors/images/paper-emoji.png"> <img class="h-10 w-10" src="https://supersimple.dev/projects/rock-paper-scissors/images/paper-emoji.png"> computer</div>';
+            if(computerc==='paper' && yourc==='rock') choi.innerHTML='<div class="flex items-center">You <img class="h-10 w-10" src="https://supersimple.dev/projects/rock-paper-scissors/images/rock-emoji.png"> <img class="h-10 w-10" src="https://supersimple.dev/projects/rock-paper-scissors/images/paper-emoji.png"> computer</div>';
+            if(computerc==='paper' && yourc==='scissor') choi.innerHTML='<div class="flex items-center">You <img class="h-10 w-10" src="https://supersimple.dev/projects/rock-paper-scissors/images/scissors-emoji.png"> <img class="h-10 w-10" src="https://supersimple.dev/projects/rock-paper-scissors/images/paper-emoji.png"> computer</div>';
+            if(computerc==='scissor' && yourc==='scissor') choi.innerHTML='<div class="flex items-center">You <img class="h-10 w-10" src="https://supersimple.dev/projects/rock-paper-scissors/images/scissors-emoji.png"> <img class="h-10 w-10" src="https://supersimple.dev/projects/rock-paper-scissors/images/scissors-emoji.png"> computer</div>';
+            if(computerc==='scissor' && yourc==='rock') choi.innerHTML='<div class="flex items-center">You <img class="h-10 w-10" src="https://supersimple.dev/projects/rock-paper-scissors/images/rock-emoji.png"> <img class="h-10 w-10" src="https://supersimple.dev/projects/rock-paper-scissors/images/scissors-emoji.png"> computer</div>'; 
+            if(computerc==='scissor' && yourc==='paper') choi.innerHTML='<div class="flex items-center">You <img class="h-10 w-10" src="https://supersimple.dev/projects/rock-paper-scissors/images/paper-emoji.png"> <img class="h-10 w-10" src="https://supersimple.dev/projects/rock-paper-scissors/images/scissors-emoji.png"> computer</div>';
+        }
+        function choicee() {
+            let a = Math.random();
+            if (a <= 1 / 3) return 'rock';
+            else if (a > 1 / 3 && a <= 2 / 3) return 'scissor';
+            else return 'paper';
+        } 
+        function updatescore(){
+            const finalr=document.querySelector('.js-complete-result');
+            finalr.innerHTML=`Win: ${score.win} | Lose: ${score.loose} | Tie: ${score.Tie}`;
+        }
+        const finalr=document.querySelector('.js-complete-result');
+        finalr.innerHTML=`Win: ${score.win} | Lose: ${score.loose} | Tie: ${score.Tie}`;
+    </script>
+</body>
+</html>
