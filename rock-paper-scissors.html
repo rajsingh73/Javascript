@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rock Paper Scissors</title> 
+    <title>Rock-paper-scissors</title> 
     <link href="./output.css" rel="stylesheet">
     <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
 </head>
@@ -24,6 +24,7 @@
     document.querySelector('.js-result').innerHTML='';
     document.querySelector('.js-choice').innerHTML='';
     updatescore();
+    localStorage.removeItem('score');
     ">ResetGame</button>
     <script>
         let score;
